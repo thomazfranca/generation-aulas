@@ -12,9 +12,26 @@ public class Preguica extends Animal {
 	}
 	
 	
-	public void imprimirInfo()
+	public void imprimirPreguica()
 	{
-		System.out.println("\nNome do cavalo: "+getNome()+"\nIdade: "+getIdade()+"\nNacionalidade: "+nacionalidade+"\nCor: "+cor);
+		
+		System.out.println("\nNome da preguiça: "+getNome()+"\nIdade: "+getIdade()+
+				"\nNacionalidade: "+nacionalidade+"\nCor: "+cor);
+	}
+
+
+	@Override
+	public void somAnimal() {
+		// TODO Auto-generated method stub
+		System.out.println("\nA preguiça faz grrrrrr");
+
+	}
+
+
+	@Override
+	public void andaAnimal() {
+		// TODO Auto-generated method stub
+		System.out.println("\nA não corre! Ela só escala arvores");
 	}
 	
 
