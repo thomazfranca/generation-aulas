@@ -2,7 +2,7 @@ package Familia24;
 
 import java.util.Scanner;
 
-public class ClasseExemplo {
+public class ExemploClasse {
 
 	public static void main(String[] args) {
 		
