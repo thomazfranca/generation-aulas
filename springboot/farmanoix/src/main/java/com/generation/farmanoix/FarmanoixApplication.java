@@ -9,5 +9,4 @@ public class FarmanoixApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(FarmanoixApplication.class, args);
 	}
-
 }
