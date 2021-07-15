@@ -2,10 +2,13 @@ package org.generation.blogpessoal.model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -16,7 +19,7 @@ import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name = "postagem")
+@Table(name = "tb_postagem")
 public class Postagem {
 
 	@Id
@@ -33,11 +36,25 @@ public class Postagem {
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date data = new java.sql.Date(System.currentTimeMillis());
-	
-	@ManyToOne
-	@JsonIgnoreProperties({"postagem"})//@JsonIgnoreProperties("produtosCriados")
+
+	@ManyToOne(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+	@JoinColumn(name = "fk_tema")
+	@JsonIgnoreProperties({ "postagemCriada" }) // @JsonIgnoreProperties("produtosCriados")
 	private Tema tema;
-	
+
+	@ManyToOne(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+	@JoinColumn(name = "fk_usuario")
+	@JsonIgnoreProperties({ "postagemCriada" })
+	private Usuario criador;
+
+	public Usuario getCriador() {
+		return criador;
+	}
+
+	public void setCriador(Usuario criador) {
+		this.criador = criador;
+	}
+
 	public Long getId() {
 		return id;
 	}

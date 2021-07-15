@@ -25,13 +25,13 @@ public class TemaController {
 	@Autowired
 	private TemaRepository repository;
 
-	@GetMapping
+	@GetMapping("/todos")
 	public ResponseEntity<List<Tema>> GetAll() {
 		return ResponseEntity.ok(repository.findAll());
 
 	}
 
-	@GetMapping("/{id}")
+	@GetMapping("/id/{id}")
 	public ResponseEntity<Tema> GetById(@PathVariable Long id) {
 		return repository.findById(id).map(resp -> ResponseEntity.ok(resp)).orElse(ResponseEntity.notFound().build());
 
@@ -52,7 +52,7 @@ public class TemaController {
 		return ResponseEntity.ok(repository.save(tema));
 	}
 
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/id/{id}")
 	public void delete(@PathVariable Long id) {
 		repository.deleteById(id);
 	}

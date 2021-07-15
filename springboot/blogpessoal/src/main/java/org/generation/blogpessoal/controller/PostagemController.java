@@ -24,13 +24,13 @@ public class PostagemController {
 	@Autowired
 	private PostagemRepository repository;
 
-	@GetMapping
+	@GetMapping("/todos")
 	public ResponseEntity<List<Postagem>> GetAll() {
 		return ResponseEntity.ok(repository.findAll());
 
 	}
 
-	@GetMapping("/{id}")
+	@GetMapping("/id/{id}")
 	public ResponseEntity<Postagem> GetById(@PathVariable Long id) {
 		return repository.findById(id).map(resp -> ResponseEntity.ok(resp))
 				.orElse(ResponseEntity.notFound().build());
@@ -41,17 +41,17 @@ public class PostagemController {
 		return ResponseEntity.ok(repository.findAllByTituloContainingIgnoreCase(titulo));
 	}
 	
-	@PostMapping 
+	@PostMapping("/postar") 
 	public ResponseEntity<Postagem> post (@RequestBody Postagem postagem) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(postagem));
 	}
 	
-	@PutMapping
+	@PutMapping("/atualizarPost")
 	public ResponseEntity<Postagem> put (@RequestBody Postagem postagem) {
 		return ResponseEntity.status(HttpStatus.OK).body(repository.save(postagem));
 	}
 	
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/id/{id}")
 	public void delete(@PathVariable Long id) {
 		repository.deleteById(id);
 	}

@@ -17,19 +17,23 @@ public class UsuarioService {
 	@Autowired
 	private UsuarioRepository repository;
 
-	public Usuario CadastrarUsuario(Usuario usuario) {
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+	public Optional<Usuario> CadastrarUsuario(Usuario usuario) {
+		Optional<Usuario> usuarioExistente = repository.findByNomeUsuario(usuario.getNomeUsuario());
+		if (usuarioExistente.isPresent()) {
+			return Optional.empty();
+		} else {
+			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-		String senhaEncoder = encoder.encode(usuario.getSenha());
-		usuario.setSenha(senhaEncoder);
+			String senhaEncoder = encoder.encode(usuario.getSenha());
+			usuario.setSenha(senhaEncoder);
 
-		return repository.save(usuario);
-
+			return Optional.ofNullable(repository.save(usuario));
+		}
 	}
 
 	public Optional<UsuarioLogin> Logar(Optional<UsuarioLogin> user) {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		Optional<Usuario> usuario = repository.findByUsuario(user.get().getUsuario());
+		Optional<Usuario> usuario = repository.findByNomeUsuario(user.get().getUsuario());
 
 		if (usuario.isPresent()) {
 			if (encoder.matches(user.get().getSenha(), usuario.get().getSenha())) {
@@ -40,13 +44,15 @@ public class UsuarioService {
 
 				user.get().setToken(authHeader);
 				user.get().setNome(usuario.get().getNome());
-				
+				user.get().setSenha(usuario.get().getSenha());
+
 				return user;
 
+			} else {
+				return null;
 			}
 		}
 		return null;
 
 	}
-
 }
